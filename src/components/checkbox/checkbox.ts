@@ -142,4 +142,15 @@ export class Checkbox extends BaseInput<boolean> implements IonicTapInput, OnDes
     this._item && this._item.setElementClass('item-checkbox-checked', this._value);
   }
 
+  /**
+   * @hidden
+   */
+  _setValue(val: boolean): boolean {
+    if (super._setValue(val)) {
+      this._fireTouched();
+      return true;
+    }
+    return false;
+  }
+
 }

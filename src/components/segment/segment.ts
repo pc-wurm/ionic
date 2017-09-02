@@ -110,5 +110,16 @@ export class Segment extends BaseInput<string> implements AfterContentInit {
     }
   }
 
+  /**
+   * @hidden
+   */
+  _setValue(val: string): boolean {
+    if (super._setValue(val)) {
+      this._fireTouched();
+      return true;
+    }
+    return false;
+  }
+
 
 }

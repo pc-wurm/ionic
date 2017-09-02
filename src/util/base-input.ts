@@ -100,10 +100,19 @@ export class BaseInput<T> extends Ion implements CommonInput<T> {
     return this._value;
   }
   set value(val: T) {
+    this._setValue(val);
+  }
+
+  /**
+   * @hidden
+   */
+  _setValue(val: T): boolean {
     if (this._writeValue(val)) {
       this.onChange();
       this._fireIonChange();
+      return true;
     }
+    return false;
   }
 
   // 1. Updates the value
@@ -228,7 +237,15 @@ export class BaseInput<T> extends Ion implements CommonInput<T> {
 
     this._form && this._form.unsetAsFocused(this);
     this._setFocus(false);
+    this._fireTouched();
     this.ionBlur.emit(this);
+  }
+
+  /**
+   * @hidden
+   */
+  _fireTouched() {
+    this._onTouched && this._onTouched();
   }
 
   /**
@@ -253,7 +270,6 @@ export class BaseInput<T> extends Ion implements CommonInput<T> {
    */
   private onChange() {
     this._onChanged && this._onChanged(this._inputNgModelEvent());
-    this._onTouched && this._onTouched();
   }
 
   /**
